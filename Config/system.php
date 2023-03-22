@@ -1,5 +1,9 @@
 <?php
 
+/**
+* Configurações necessárias para o sistema.
+*/
+
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__.'/../');
 $dotenv->load();
 

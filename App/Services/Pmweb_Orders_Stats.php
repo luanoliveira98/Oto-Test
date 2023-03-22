@@ -1,13 +1,12 @@
 <?php
 
+namespace App\Services;
+
+use App\Models\Pedido;
+
 /**
 * Sumarizações de dados transacionais de pedidos.
 */
-
-include __DIR__.'/../Models/Pedido.php';
-
-include __DIR__ . '/../Helpers/Dates.php';
-include __DIR__ . '/../Helpers/Json.php';
 
 class Pmweb_Orders_Stats {
 
@@ -29,6 +28,7 @@ class Pmweb_Orders_Stats {
   {
     $this->model->setStartDate($date);
   }
+
   /**
   * Define o período final da consulta.
   *
@@ -40,6 +40,7 @@ class Pmweb_Orders_Stats {
   {
     $this->model->setEndDate($date);
   }
+
   /**
   * Retorna o total de pedidos efetuados no período.
   *
@@ -47,10 +48,11 @@ class Pmweb_Orders_Stats {
   */
   public function getOrdersCount(): int
   {
-    $pedidos = $this->model->getPedidosUsandoDatas();
-    $quantidadePedidos = count($pedidos);
-    return $quantidadePedidos;
+    $orders = $this->model->getPedidos();
+    $count = count($orders);
+    return $count;
   }
+
   /**
   * Retorna a receita total de pedidos efetuados no período.
   *
@@ -58,10 +60,11 @@ class Pmweb_Orders_Stats {
   */
   public function getOrdersRevenue(): float
   {
-    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(SUM(price), 2) amount']);
-    $amount = $pedidos[0]->amount;
-    return $amount;
+    $orders = $this->model->getPedidos(['ROUND(SUM(price), 2) revenue']);
+    $revenue = $orders[0]->revenue;
+    return $revenue;
   }
+
   /**
   * Retorna o total de produtos vendidos no período (soma de quantidades).
   *
@@ -69,29 +72,33 @@ class Pmweb_Orders_Stats {
   */
   public function getOrdersQuantity(): int
   {
-    $pedidos = $this->model->getPedidosUsandoDatas(['SUM(quantity) products']);
-    $products = $pedidos[0]->products;
-    return $products;
+    $orders = $this->model->getPedidos(['SUM(quantity) quantity']);
+    $quantity = $orders[0]->quantity;
+    return $quantity;
   }
+
   /**
   * Retorna o preço médio de vendas (receita / quantidade de produtos).
   *
   * @return float Preço médio de venda.
   */
-  public function getOrdersRetailPrice() {
-    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(SUM(price) / SUM(quantity), 2) averagePrice']);
-    $averagePrice = $pedidos[0]->averagePrice;
-    return $averagePrice;
+  public function getOrdersRetailPrice(): float
+  {
+    $orders = $this->model->getPedidos(['ROUND(SUM(price) / SUM(quantity), 2) averageRetailPrice']);
+    $averageRetailPrice = $orders[0]->averageRetailPrice;
+    return $averageRetailPrice;
   }
+
   /**
   * Retorna o ticket médio de venda (receita / total de pedidos).
   *
   * @return float Ticket médio.
   */
-  public function getOrdersAverageOrderValue() {
-    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(AVG(price), 2) averageTicket']);
-    $averageTicket = $pedidos[0]->averageTicket;
-    return $averageTicket;
+  public function getOrdersAverageOrderValue(): float
+  {
+    $orders = $this->model->getPedidos(['ROUND(AVG(price), 2) averageOrderValue']);
+    $averageOrderValue = $orders[0]->averageOrderValue;
+    return $averageOrderValue;
   }
   
   /**
@@ -102,9 +109,10 @@ class Pmweb_Orders_Stats {
   public function getOrdersByDate() {
     $date = (object) [];
 
-    $pedidos = $this->model->getPedidos();
-    foreach ($pedidos as $pedido) {
-      $orderDate = DateWithoutTime($pedido->order_date);
+    $orders = $this->model->getPedidos();
+
+    foreach ($orders as $order) {
+      $orderDate = DateWithoutTime($order->order_date);
 
       if(isset($date->{$orderDate})) {
         $date->{$orderDate} ++;

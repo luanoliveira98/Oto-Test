@@ -1,6 +1,10 @@
 <?php
 
-include 'Base.php';
+namespace App\Models;
+
+/**
+* Modelo de pedidos para os demais, com funções genéricas.
+*/
 
 class Pedido extends Base {
 
@@ -43,28 +47,18 @@ class Pedido extends Base {
   }
 
   /**
-  * Busca todos os pedidos cadastrados levando em consideração as datas de limite.
+  * Busca todos os pedidos cadastrados.
   * @param array $fields Campos para busca (ex, ['order_id', 'order_date', 'price']). Também é possível enviar campos de busca 
   * personalizados (ex, ['SUM(quantity)', 'AVG(price)']), assim como adicionar alias aos campos (ex, ['SUM(price) amount'])
   * 
-  * @return int Total de pedidos.
+  * @return array
   */
-  public function getPedidosUsandoDatas(array $fields = ['*']): array
+  public function getPedidos(array $fields = ['*']): array
   {
     $this->query = $this->select($fields);
     $this->setDatesIntoQuery();
-    $pedidos = $this->query->get();
-    return $pedidos;
-  }
-
-  /**
-  * Busca todos os pedidos cadastrados.
-  * 
-  * @return array
-  */
-  public function getPedidos(): array
-  {
-    $pedidos = $this->select()->orderBy('order_date')->get();
-    return $pedidos;
+    $this->query = $this->orderBy('order_date');
+    $orders = $this->query->get();
+    return $orders;
   }
 }

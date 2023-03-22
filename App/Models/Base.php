@@ -1,6 +1,12 @@
 <?php
 
-include __DIR__.'/../Database/Connection.php';
+namespace App\Models;
+
+use App\Database\Connection;
+
+/**
+* Modelo base para os demais, com funções genéricas.
+*/
 
 class Base {
 
@@ -8,8 +14,7 @@ class Base {
   protected $table;
 
   public function __construct() {
-    $connection = new Connection();
-    $this->databaseConnection = $connection->getConnection();
+    $this->databaseConnection = Connection::getConnection();
   }
 
   /**
@@ -76,7 +81,7 @@ class Base {
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-      return $stmt->fetchAll(PDO::FETCH_CLASS);
+      return $stmt->fetchAll(\PDO::FETCH_CLASS);
     }
     return [];
   }

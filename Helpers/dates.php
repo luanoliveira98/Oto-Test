@@ -1,6 +1,10 @@
 <?php
 
 /**
+* Arquivo com funções auxiliares para trabalhar com datas.
+*/
+
+/**
 * Retorna data no formato Y-m-d.
 * @param string $date Data para conversão.
 *

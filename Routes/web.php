@@ -1,5 +1,9 @@
 <?php
 
+/**
+* Rotas da aplicação.
+*/
+
 use CoffeeCode\Router\Router;
 
 header("Access-Control-Allow-Origin: *");
@@ -17,9 +21,8 @@ $router->namespace("App\Controllers");
 /**
  * Pedidos
  */
-$router->group(null);
-$router->get("/orders", function($data) {
-  echo "ue";
-});
+$router->group("orders");
+$router->get("/stats", 'OrdersController:stats');
+$router->get("/by-date", 'OrdersController:byDate');
 
 $router->dispatch();

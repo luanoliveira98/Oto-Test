@@ -1,6 +1,8 @@
 <?php
 
-require 'vendor/autoload.php';
+/**
+* Configurações necessárias para conexão com o banco de dados.
+*/
 
 $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__.'/../');
 $dotenv->load();

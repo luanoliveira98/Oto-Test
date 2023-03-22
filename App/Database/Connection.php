@@ -1,21 +1,23 @@
 <?php
 
+namespace App\Database;
+
+/**
+* Conector com o banco de dados.
+*/
+
 class Connection {
 
-  private $connection;
-
-  private $dbSystem = DATABASE_SYSTEM;
-  private $dbHostname = DATABASE_HOSTNAME;
-  private $dbName = DATABASE_DATABASE;
+  private static $connection;
 
   /**
    * Cria a conexão com o banco de dados
    * 
    * @return void
    */
-  private function setConnection(): void {
+  private static function setConnection(): void {
     try {
-      $this->connection = new PDO("{$this->dbSystem}:host={$this->dbHostname};dbname={$this->dbName}", DATABASE_USERNAME, DATABASE_PASSWORD);
+      self::$connection = new \PDO(DATABASE_SYSTEM.":host=".DATABASE_HOSTNAME.";dbname=".DATABASE_DATABASE, DATABASE_USERNAME, DATABASE_PASSWORD);
     } catch (PDOException $e) {
       echo "Erro na conexão: {$e->getMessage()}";
     }
@@ -24,13 +26,13 @@ class Connection {
   /**
    * Retorna a conexão com o banco de dados
    * 
-   * @return PDO
+   * @return PDO Conexão feita com o banco de dados
    */
-  public function getConnection(): \PDO {
-    if(!isset($this->connection)) {
-      $this->setConnection();
+  public static function getConnection(): \PDO {
+    if(!isset(self::$connection)) {
+      self::setConnection();
     }
 
-    return $this->connection;
+    return self::$connection;
   }
 }

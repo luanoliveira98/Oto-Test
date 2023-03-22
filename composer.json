@@ -12,7 +12,10 @@
             "App\\": "App/"
         },
         "files": [
-            "Config/system.php"
+            "Config/database.php",
+            "Config/system.php",
+            "Helpers/dates.php",
+            "Helpers/json.php"
         ]
     },
     "require": {
