@@ -18,8 +18,8 @@
 
 ## Tarefas
 
-- [x] Tarefa 1
-- [ ] Tarefa 2
+- [x] Tarefa 1 --> Em: App/Database/create-table-pedido.sql
+- [x] Tarefa 2 --> Em: App/Controllers/PmwebOrdersStats.php
 - [ ] Tarefa 3
 - [ ] Tarefa 4
 

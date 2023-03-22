@@ -1,21 +1,20 @@
 <?php
 
+include __DIR__.'/../../config/database.php';
+
 class Connection {
 
   private $connection;
 
-  private $dbSystem;
-  private $dbHostname;
-  private $dbName;
+  private $dbSystem = DATABASE_SYSTEM;
+  private $dbHostname = DATABASE_HOSTNAME;
+  private $dbName = DATABASE_DATABASE;
 
-  public function __construct() {
-    require __DIR__.'/../../config/database.php';
-
-    $this->dbSystem = DATABASE_SYSTEM;
-    $this->dbHostname = DATABASE_HOSTNAME;
-    $this->dbName = DATABASE_DATABASE;
-  }
-
+  /**
+   * Cria a conexão com o banco de dados
+   * 
+   * @return void
+   */
   private function setConnection(): void {
     try {
       $this->connection = new PDO("{$this->dbSystem}:host={$this->dbHostname};dbname={$this->dbName}", DATABASE_USERNAME, DATABASE_PASSWORD);
@@ -25,7 +24,7 @@ class Connection {
   }
 
   /**
-   * Faz conexão com o banco de dados
+   * Retorna a conexão com o banco de dados
    * 
    * @return PDO
    */

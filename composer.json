@@ -1,0 +1,11 @@
+{
+    "authors": [
+        {
+            "name": "Luan Oliveira Saldanha",
+            "email": "luanoliveiraltda@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
