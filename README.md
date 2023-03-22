@@ -21,7 +21,7 @@
 - [x] Tarefa 1 --> Em: App/Database/create-table-pedido.sql
 - [x] Tarefa 2 --> Em: App/Controllers/PmwebOrdersStats.php
 - [ ] Tarefa 3
-- [ ] Tarefa 4
+- [x] Tarefa 4 --> Em: App/Controllers/PmwebOrdersStats.php
 
 
 

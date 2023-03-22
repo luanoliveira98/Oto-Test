@@ -14,7 +14,8 @@ class Base {
 
   /**
    * Adiciona ao $this->sql o SQL base para uma query de busca
-   * @param array $fields Campos para busca (ex, ['order_id', 'order_date', 'price']).
+   * @param array $fields Campos para busca (ex, ['order_id', 'order_date', 'price']). Também é possível enviar campos de busca 
+   * personalizados (ex, ['SUM(quantity)', 'AVG(price)']), assim como adicionar alias aos campos (ex, ['SUM(price) amount'])
    * 
    * @return self
    */
@@ -47,6 +48,24 @@ class Base {
   }
 
   /**
+   * Adiciona ao $this->sql o SQL de ordernação
+   * @param string $fields Campo para ordenação (ex, order_date).
+   * @param string $order Guia para ordenação (ex, ASC).
+   * 
+   * @return self
+   */
+  public function orderBy(string $field, string $order = 'ASC'): self
+  {
+    if (!str_contains($this->sql, 'ORDER BY')) {
+      $this->sql .= " ORDER BY ";
+    } else {
+      $this->sql .= ", ";
+    }
+    $this->sql .= "{$field} {$order}";
+    return $this;
+  }
+
+  /**
    * Executa a query presente em $this->sql
    * 
    * @return array
@@ -57,7 +76,7 @@ class Base {
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+      return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
     return [];
   }

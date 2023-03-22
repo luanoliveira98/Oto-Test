@@ -1,11 +1,15 @@
 <?php
+
 /**
 * Sumarizações de dados transacionais de pedidos.
 */
 
+include 'Controller.php';
 include __DIR__.'/../Models/Pedido.php';
 
-class Pmweb_Orders_Stats {
+include __DIR__ . '/../Helpers/Dates.php';
+
+class Pmweb_Orders_Stats extends Controller {
 
   protected $model;
   protected $startDate;
@@ -54,8 +58,8 @@ class Pmweb_Orders_Stats {
   */
   public function getOrdersRevenue(): float
   {
-    $pedidos = $this->model->getPedidosUsandoDatas(['SUM(price) amount']);
-    $amount = round($pedidos[0]['amount'], 2);
+    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(SUM(price), 2) amount']);
+    $amount = $pedidos[0]->amount;
     return $amount;
   }
   /**
@@ -66,7 +70,7 @@ class Pmweb_Orders_Stats {
   public function getOrdersQuantity(): int
   {
     $pedidos = $this->model->getPedidosUsandoDatas(['SUM(quantity) products']);
-    $products = $pedidos[0]['products'];
+    $products = $pedidos[0]->products;
     return $products;
   }
   /**
@@ -75,8 +79,8 @@ class Pmweb_Orders_Stats {
   * @return float Preço médio de venda.
   */
   public function getOrdersRetailPrice() {
-    $pedidos = $this->model->getPedidosUsandoDatas(['(SUM(price) / SUM(quantity)) averagePrice']);
-    $averagePrice = round($pedidos[0]['averagePrice'], 2);
+    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(SUM(price) / SUM(quantity), 2) averagePrice']);
+    $averagePrice = $pedidos[0]->averagePrice;
     return $averagePrice;
   }
   /**
@@ -85,23 +89,43 @@ class Pmweb_Orders_Stats {
   * @return float Ticket médio.
   */
   public function getOrdersAverageOrderValue() {
-    $pedidos = $this->model->getPedidosUsandoDatas(['AVG(price) averageTicket']);
-    $averageTicket = round($pedidos[0]['averageTicket'], 2);
+    $pedidos = $this->model->getPedidosUsandoDatas(['ROUND(AVG(price), 2) averageTicket']);
+    $averageTicket = $pedidos[0]->averageTicket;
     return $averageTicket;
   }
+  
   /**
   * Retorna uma listagem com a quantidade de pedidos por dia.
   *
   * @return array Pedidos por dia.
   */
   public function getOrdersByDate() {
-    $pedidos = $model->getPedidos();
-    foreach ($pedidos as $key => $value) {
-      $obj[$key][$value->order_date] = $value->order_date;
-      if(in_array($value->order_date,$obj[$key])) {
-        $date[$key] = count($obj[$key]);
+    $date = (object) [];
+
+    $pedidos = $this->model->getPedidos();
+    foreach ($pedidos as $pedido) {
+      $orderDate = DateWithoutTime($pedido->order_date);
+
+      echo $orderDate;
+      break;
+
+      if(isset($date->{$ordeDate})) {
+        $date->{$ordeDate} ++;
+      } else {
+        $date->{$ordeDate} = 0;
       }
     }
     return $this->responseJson($date);
   }
 }
+
+$test = new Pmweb_Orders_Stats();
+
+// $test->setStartDate('2021-01-01');
+// $test->setEndDate('2021-12-31');
+// echo "Qtd: {$test->getOrdersCount()} ";
+// echo "R$: {$test->getOrdersRevenue()} ";
+// echo "Prod: {$test->getOrdersQuantity()} ";
+// echo "R$ Médio: {$test->getOrdersRetailPrice()} ";
+// echo "Ticket Médio: {$test->getOrdersAverageOrderValue()} ";
+print_r($test->getOrdersByDate());

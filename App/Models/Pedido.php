@@ -44,7 +44,8 @@ class Pedido extends Base {
 
   /**
   * Busca todos os pedidos cadastrados levando em consideração as datas de limite.
-  * @param array $fields Campos para busca (ex, ['order_id', 'order_date', 'price']).
+  * @param array $fields Campos para busca (ex, ['order_id', 'order_date', 'price']). Também é possível enviar campos de busca 
+  * personalizados (ex, ['SUM(quantity)', 'AVG(price)']), assim como adicionar alias aos campos (ex, ['SUM(price) amount'])
   * 
   * @return int Total de pedidos.
   */
@@ -63,7 +64,7 @@ class Pedido extends Base {
   */
   public function getPedidos(): array
   {
-    $pedidos = $this->select()->get();
+    $pedidos = $this->select()->orderBy('order_date')->get();
     return $pedidos;
   }
 }
