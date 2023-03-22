@@ -1,7 +1,5 @@
 <?php
 
-include __DIR__.'/../../config/database.php';
-
 class Connection {
 
   private $connection;

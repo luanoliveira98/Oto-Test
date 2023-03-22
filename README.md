@@ -11,17 +11,49 @@
 </h4>
 
 <p align="center">
+ <a href="#pré-requisitos">Pré Requisitos</a> •
+ <a href="#executando-o-código">Executando o código</a> •
  <a href="#tarefas">Tarefas</a> •
  <a href="#autor">Autor</a> •
  <a href="#licença">Licença</a>
 </p>
 
+## Pré Requisitos
+
+Antes de comelar, você precisará ter as seguintes ferramentas instaladas na sua máquina:
+[PHP] (https://www.php.net/), [Composer] (https://getcomposer.org/).
+Em adicional, você precisa de um banco de dados,preferencialmente [MySQL] (https://dev.mysql.com/) para rodar o projeto.
+
+## Executando o código
+
+````bash
+
+# Clone este repositório
+$ git clone git@github.com:luanoliveira98/Oto-Test.git
+
+# Acesse a pasta do projeto no cmd/terminal
+$ cd Oto-Test
+
+# Instale as dependências
+$ composer install
+
+# Duplique o .env.example com o nome de .env e preencha as variáveis necessárias
+
+# Crie um banco de dados e execute os scripts, nessa sequência, de create-table-pedido.sql e db_oto_order_items.sql disponívels em App/Database
+
+# Execute a aplicação
+$ php -S localhost:3333
+
+# O servidor irá começar na porta 3333 - vá para http://localhost:3333
+
+````
+
 ## Tarefas
 
 - [x] Tarefa 1 --> Em: App/Database/create-table-pedido.sql
-- [x] Tarefa 2 --> Em: App/Controllers/PmwebOrdersStats.php
-- [ ] Tarefa 3
-- [x] Tarefa 4 --> Em: App/Controllers/PmwebOrdersStats.php
+- [x] Tarefa 2 --> Em: App/Services/PmwebOrdersStats.php
+- [ ] Tarefa 3 --> Em: App/Controllers/OrdersController.php
+- [x] Tarefa 4 --> Em: App/Services/PmwebOrdersStats.php
 
 ## Autor
 ---
