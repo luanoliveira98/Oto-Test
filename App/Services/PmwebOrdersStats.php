@@ -4,12 +4,12 @@
 * Sumarizações de dados transacionais de pedidos.
 */
 
-include 'Controller.php';
 include __DIR__.'/../Models/Pedido.php';
 
 include __DIR__ . '/../Helpers/Dates.php';
+include __DIR__ . '/../Helpers/Json.php';
 
-class Pmweb_Orders_Stats extends Controller {
+class Pmweb_Orders_Stats {
 
   protected $model;
   protected $startDate;
@@ -106,26 +106,12 @@ class Pmweb_Orders_Stats extends Controller {
     foreach ($pedidos as $pedido) {
       $orderDate = DateWithoutTime($pedido->order_date);
 
-      echo $orderDate;
-      break;
-
-      if(isset($date->{$ordeDate})) {
-        $date->{$ordeDate} ++;
+      if(isset($date->{$orderDate})) {
+        $date->{$orderDate} ++;
       } else {
-        $date->{$ordeDate} = 0;
+        $date->{$orderDate} = 0;
       }
     }
-    return $this->responseJson($date);
+    return responseJson($date);
   }
 }
-
-$test = new Pmweb_Orders_Stats();
-
-// $test->setStartDate('2021-01-01');
-// $test->setEndDate('2021-12-31');
-// echo "Qtd: {$test->getOrdersCount()} ";
-// echo "R$: {$test->getOrdersRevenue()} ";
-// echo "Prod: {$test->getOrdersQuantity()} ";
-// echo "R$ Médio: {$test->getOrdersRetailPrice()} ";
-// echo "Ticket Médio: {$test->getOrdersAverageOrderValue()} ";
-print_r($test->getOrdersByDate());

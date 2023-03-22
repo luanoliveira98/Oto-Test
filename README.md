@@ -23,8 +23,6 @@
 - [ ] Tarefa 3
 - [x] Tarefa 4 --> Em: App/Controllers/PmwebOrdersStats.php
 
-
-
 ## Autor
 ---
 
